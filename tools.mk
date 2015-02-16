@@ -39,7 +39,7 @@ ifeq ($(OS),Windows_NT)
     
     # Set the Toolchain directory.
     TOOLCHAIN_DIR := \
-    "E:\\DevTools\\GNU Tools ARM Embedded\\4.9 2014q4\\bin\\"
+    E:/DevTools/GNU Tools ARM Embedded/4.9 2014q4/arm-none-eabi/bin/	    
 	
 	# return the directory of the specified file replacing slashes with 
 	# backslashes.

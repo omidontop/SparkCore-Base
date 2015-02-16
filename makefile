@@ -137,7 +137,7 @@ ALLDEPS += $(addprefix $(OBJ_DIR), $(ASRC:.s=.o.d))
 # Targets
 ################################################################################
 
-all: elf hex bin pdmacros size
+all: elf hex bin pdmacros
 
 elf: $(TARGETDIR)$(TARGET).elf
 
@@ -147,9 +147,7 @@ hex: $(TARGETDIR)$(TARGET).hex
 
 # Display size
 size:
-	@$(SIZE) $(TARGETDIR)$(TARGET).elf \
-	 		 $(TARGETDIR)$(TARGET).hex \
-	 		 --format=berkeley -d $<
+	-@$(SIZE) $(TARGETDIR)$(TARGET).elf $(TARGETDIR)$(TARGET).hex --format=berkeley -d $<
 
 pdmacros:
 	@echo Saving PreDefMacros.txt...
@@ -165,6 +163,7 @@ pdmacros:
 %.bin : %.elf
 	@echo Building $(notdir $@)...
 	@$(OBJCOPY) -O binary $< $@
+	@$(SIZE) $(TARGETDIR)$(TARGET).elf $(TARGETDIR)$(TARGET).hex --format=berkeley -d $<
 
 # Create an elf file
 $(TARGETDIR)$(TARGET).elf : $(ALLOBJ)

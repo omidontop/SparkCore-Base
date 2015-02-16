@@ -50,9 +50,8 @@ namespace
   // ----- Timing definitions -------------------------------------------------
 
   // Keep the LED on for 2/3 of a second.
-  constexpr Timer::ticks_t BLINK_ON_TICKS = Timer::FREQUENCY_HZ * 2 / 3;
-  constexpr Timer::ticks_t BLINK_OFF_TICKS = Timer::FREQUENCY_HZ
-      - BLINK_ON_TICKS;
+  constexpr Timer::ticks_t BLINK_ON_TICKS = Timer::FREQUENCY_HZ * 1 / 10;
+  constexpr Timer::ticks_t BLINK_OFF_TICKS = BLINK_ON_TICKS;
 }
 
 // ----- main() ---------------------------------------------------------------

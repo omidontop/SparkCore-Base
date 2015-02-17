@@ -50,7 +50,7 @@ namespace
   // ----- Timing definitions -------------------------------------------------
 
   // Keep the LED on for 2/3 of a second.
-  constexpr Timer::ticks_t BLINK_ON_TICKS = Timer::FREQUENCY_HZ * 2 / 3;
+  constexpr Timer::ticks_t BLINK_ON_TICKS = Timer::FREQUENCY_HZ * 1 / 20;
   constexpr Timer::ticks_t BLINK_OFF_TICKS = Timer::FREQUENCY_HZ
       - BLINK_ON_TICKS;
 }
@@ -73,17 +73,17 @@ main(int argc, char* argv[])
   // trace_dump_args(argc, argv);
 
   // Send a greeting to the trace device (skipped on Release).
-  trace_puts("Hello ARM World!");
+  trace_puts("Hello!");
 
   // The standard output and the standard error should be forwarded to
   // the trace device. For this to work, a redirection in _write.c is
   // required.
-  puts("Standard output message.");
-  fprintf(stderr, "Standard error message.\n");
+  // puts( "Standard output message." );
+  // fprintf(stderr, "Standard error message.\n");
 
   // At this stage the system clock should have already been configured
   // at high speed.
-  trace_printf("System clock: %uHz\n", SystemCoreClock);
+  trace_printf("System Clock: %uHz\n", SystemCoreClock);
 
   Timer timer;
   timer.start();
@@ -95,20 +95,20 @@ main(int argc, char* argv[])
 
   uint32_t seconds = 0;
 
-  // Infinite loop
-  while (1)
-    {
-      blinkLed.turnOn();
-      timer.sleep(BLINK_ON_TICKS);
+	// Infinite loop
+	while (1)
+	{
+		blinkLed.turnOn();
+		timer.sleep(BLINK_ON_TICKS);
 
-      blinkLed.turnOff();
-      timer.sleep(BLINK_OFF_TICKS);
+		blinkLed.turnOff();
+		timer.sleep(BLINK_OFF_TICKS);
 
-      ++seconds;
+		++seconds;
 
-      // Count seconds on the trace device.
-      trace_printf("Second %u\n", seconds);
-    }
+		// Count seconds on the trace device.
+		trace_printf("Seconds Elapsed: %u\n", seconds);
+	}
   // Infinite loop, never return.
 }
 

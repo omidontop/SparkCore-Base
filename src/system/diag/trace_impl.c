@@ -122,7 +122,7 @@ _trace_write_itm (const char* buf, size_t nbyte)
 
 #if defined(OS_USE_TRACE_SEMIHOSTING_DEBUG) || defined(OS_USE_TRACE_SEMIHOSTING_STDOUT)
 
-#include "arm/semihosting.h"
+#include "semihosting.h"
 
 // Semihosting is the other output channel that can be used for the trace
 // messages. It comes in two flavours: STDOUT and DEBUG. The STDOUT channel

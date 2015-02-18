@@ -94,12 +94,16 @@ CCFLAGS += -Werror=deprecated-declarations
 # Generate dependency files automatically.
 CCFLAGS += -MMD -MP -MF $@.d
 
+# Add the debugging switches if Debug is the current configuration.
+ifeq ($(DEBUG), 1)
+CCFLAGS += -DTRACE
+CCFLAGS += -DOS_USE_TRACE_SEMIHOSTING_DEBUG
+endif
+
 # Target specific defines
 CCFLAGS += -DUSE_STDPERIPH_DRIVER
-CCFLAGS += -DOS_USE_TRACE_SEMIHOSTING_DEBUG
 CCFLAGS += -DHSE_VALUE=8000000
 CCFLAGS += -DSTM32F10X_MD
-CCFLAGS += -DTRACE
 # CCFLAGS += -D__CORTEX_M3
 # CCFLAGS += -D__CMSIS_RTOS
 

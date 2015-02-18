@@ -1,11 +1,3 @@
 eclipse.preferences.version=1
-environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1002364079.1466650088/PATH/delimiter=\:
-environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1002364079.1466650088/PATH/operation=replace
-environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1002364079.1466650088/PATH/value=/bin\:/usr/bin\:/usr/sbin\:/sbin
-environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1002364079.1466650088/append=true
-environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1002364079.1466650088/appendContributed=true
-environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1002364079/PATH/delimiter=\:
-environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1002364079/PATH/operation=replace
-environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1002364079/PATH/value=/bin\:/usr/bin\:/usr/sbin\:/sbin
-environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1002364079/append=true
-environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1002364079/appendContributed=true
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.1424714492/append=true
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.1424714492/appendContributed=true

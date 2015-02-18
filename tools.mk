@@ -32,35 +32,36 @@ SIZE = $(GCC_PREFIX)size
 
 ifeq ($(OS),Windows_NT)
 	
-	# Windows-Based Platform
-    RM := del /q /f
-    RMDIR := rd /s /q
-    MKDIR := mkdir
-    
-    # Set the Toolchain directory.
-    TOOLCHAIN_DIR := \
-    "E:\\DevTools\\GNU Tools ARM Embedded\\4.9 2014q4\\bin\\"
+   # Windows-Based Platform
+   RM := del /q /f
+   RMDIR := rd /s /q
+   MKDIR := mkdir
+   
+   # Set the Toolchain directory.
+   TOOLCHAIN_DIR := \
+   "E:\\DevTools\\GNU Tools ARM Embedded\\4.9 2014q4\\bin\\"
 	
 	# return the directory of the specified file replacing slashes with 
 	# backslashes.
 	fixdir = $(subst /,\,$(dir $1))
 
-    # CCFLAGS += -D WIN32
-    ifeq ($(PROCESSOR_ARCHITECTURE),AMD64)
-        # CCFLAGS += -D AMD64
-    endif
-    ifeq ($(PROCESSOR_ARCHITECTURE),x86)
-        # CCFLAGS += -D IA32
-    endif
+   # CCFLAGS += -D WIN32
+   ifeq ($(PROCESSOR_ARCHITECTURE),AMD64)
+		# CCFLAGS += -D AMD64
+   endif
+   ifeq ($(PROCESSOR_ARCHITECTURE),x86)
+      # CCFLAGS += -D IA32
+   endif
+
 else
 
 	# Unix-Based Platform
-    RM := rm -f
-    RMDIR := rm -f -r
-    MKDIR := mkdir -p
+   RM := rm -f
+   RMDIR := rm -f -r
+   MKDIR := mkdir -p
 
 	# Set the Toolchain directory.
-    TOOLCHAIN_DIR := /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2014q4/bin/
+	TOOLCHAIN_DIR := /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2014q4/bin/
 	
 	# return the directory of the specified file. This really only makes sense
 	# for Windows and is here for compatibility reasons with other platforms.
@@ -84,4 +85,5 @@ else
     ifneq ($(filter arm%,$(UNAME_P)),)
         # CCFLAGS += -D ARM
     endif
+    
 endif

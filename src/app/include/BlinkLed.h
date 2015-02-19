@@ -30,8 +30,7 @@ class BlinkLed
 public:
   BlinkLed() = default;
 
-  void
-  powerUp();
+  void powerUp();
 
   inline void
   __attribute__((always_inline))

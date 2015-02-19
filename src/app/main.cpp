@@ -7,8 +7,7 @@
 
 #include <stdio.h>
 #include "Trace.h"
-
-#include "Timer.h"
+#include "cmsis_os.h"
 #include "BlinkLed.h"
 
 // ----------------------------------------------------------------------------
@@ -44,16 +43,8 @@
 // so please adjust the PLL settings in system/src/cmsis/system_stm32f10x.c
 //
 
-// Definitions visible only within this translation unit.
-namespace
-{
-  // ----- Timing definitions -------------------------------------------------
-
-  // Keep the LED on for 2/3 of a second.
-  constexpr Timer::ticks_t BLINK_ON_TICKS = Timer::FREQUENCY_HZ * 1 / 20;
-  constexpr Timer::ticks_t BLINK_OFF_TICKS = Timer::FREQUENCY_HZ
-      - BLINK_ON_TICKS;
-}
+void Thread_LedBlink (void const *arg); // function prototype for Thread_LedBlink
+osThreadDef (Thread_LedBlink, osPriorityNormal, 1, 0); // define Thread_LedBlink
 
 // ----- main() ---------------------------------------------------------------
 
@@ -64,52 +55,96 @@ namespace
 #pragma GCC diagnostic ignored "-Wmissing-declarations"
 #pragma GCC diagnostic ignored "-Wreturn-type"
 
-int
-main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
-  // By customising __initialize_args() it is possible to pass arguments,
-  // for example when running tests with semihosting you can pass various
-  // options to the test.
-  // trace_dump_args(argc, argv);
+	// By customising __initialize_args() it is possible to pass arguments,
+	// for example when running tests with semihosting you can pass various
+	// options to the test.
+	// trace_dump_args(argc, argv);
 
-  // Send a greeting to the trace device (skipped on Release).
-  trace_puts("Hello!");
+	// Send a greeting to the trace device (skipped on Release).
+	trace_puts("Hello!");
 
-  // The standard output and the standard error should be forwarded to
-  // the trace device. For this to work, a redirection in _write.c is
-  // required.
-  // puts( "Standard output message." );
-  // fprintf(stderr, "Standard error message.\n");
+	// The standard output and the standard error should be forwarded to
+	// the trace device. For this to work, a redirection in _write.c is
+	// required.
+	// puts( "Standard output message." );
+	// fprintf(stderr, "Standard error message.\n");
 
-  // At this stage the system clock should have already been configured
-  // at high speed.
-  trace_printf("System Clock: %uHz\n", SystemCoreClock);
+	// At this stage the system clock should have already been configured
+	// at high speed.
+	trace_printf("System Clock: %uHz\n", SystemCoreClock);
 
-  Timer timer;
-  timer.start();
+	trace_printf( "Initializing Kernel..." );
+	if( osKernelInitialize() == osOK )
+	{
+		trace_printf( "OK\n" );
+	}
+	else
+	{
+		trace_printf( "FAILED\n" );
+	}
 
-  BlinkLed blinkLed;
+	osThreadId id;
+	trace_printf( "Creating a thread..." );
+	osThreadDef( Thread_LedBlink, osPriorityBelowNormal, 1, 500 );
+	id = osThreadCreate( osThread (Thread_LedBlink), NULL ); // create the thread
+	if (id == NULL)
+	{
+		// Failed to create a thread
+		trace_printf( "FAILED\n" );
+	}
+	else
+	{
+		trace_printf( "OK\n" );
+	}
 
-  // Perform all necessary initialisations for the LED.
-  blinkLed.powerUp();
-
-  uint32_t seconds = 0;
+	trace_printf( "Starting Kernel..." );
+	if( osKernelStart() == osOK )
+	{
+		trace_printf( "OK\n" );
+	}
+	else
+	{
+		trace_printf( "FAILED\n" );
+	}
 
 	// Infinite loop
 	while (1)
 	{
-		blinkLed.turnOn();
-		timer.sleep(BLINK_ON_TICKS);
 
-		blinkLed.turnOff();
-		timer.sleep(BLINK_OFF_TICKS);
+		//blinkLed.turnOff();
 
-		++seconds;
-
-		// Count seconds on the trace device.
-		trace_printf("Seconds Elapsed: %u\n", seconds);
 	}
   // Infinite loop, never return.
+}
+
+void Thread_LedBlink (void const *arg)
+{
+	uint32_t period = 1000;
+	float32_t dutycycle = 0.1;
+
+	uint32_t seconds = 0;
+	BlinkLed blinkLed;
+
+	const uint32_t on_period = (uint32_t)( dutycycle * period );
+	const uint32_t off_period = period - on_period;
+	/*
+	** Perform the initializations necessary.
+	*/
+
+	blinkLed.powerUp();
+
+	while( 1 )
+	{
+		blinkLed.turnOn();
+		osDelay( on_period );
+		blinkLed.turnOff();
+		osDelay( off_period );
+
+		++seconds;
+		trace_printf("Seconds Elapsed: %u\n", seconds);
+	}
 }
 
 #pragma GCC diagnostic pop
